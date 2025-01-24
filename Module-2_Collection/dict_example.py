@@ -43,5 +43,5 @@ else:
 
 
 # stdata.clear()
-del stdata
+# del stdata
 print(stdata)
