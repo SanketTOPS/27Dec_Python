@@ -7,3 +7,9 @@ class studinfoForm(forms.ModelForm):
         model = studinfo
         # fields=['name','email','mobile','dob','address']
         fields = "__all__"
+
+
+class updateForm(forms.ModelForm):
+    class Meta:
+        model = studinfo
+        fields = ["name", "email", "mobile", "dob"]
