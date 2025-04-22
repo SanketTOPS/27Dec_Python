@@ -77,7 +77,7 @@ WSGI_APPLICATION = "ShopProject.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.mysql",
-        "NAME": "shopdb",
+        "NAME": "newshop",
         "USER": "root",
         "PASSWORD": "",
         "HOST": "127.0.0.1",
@@ -122,9 +122,9 @@ USE_TZ = True
 
 STATIC_URL = "static/"
 
-MEDIA_ROOT = BASE_DIR / "media"
-MEDIA_URL = "media/"
 
+MEDIA_URL = "media/"
+MEDIA_ROOT = BASE_DIR / "media"
 
 
 # Default primary key field type
