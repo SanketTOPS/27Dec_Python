@@ -4,34 +4,69 @@ from .models import *
 from django.core.mail import send_mail
 import random
 from FInalProject import settings
+from django.contrib.auth import logout
 
 
 # Create your views here.
 def index(request):
-    return render(request, "index.html")
+    user = request.session.get("user")
+    return render(request, "index.html", {"user": user})
 
 
 def notes(request):
-    return render(request, "notes.html")
+    user = request.session.get("user")
+    return render(request, "notes.html", {"user": user})
 
 
 def profile(request):
-    return render(request, "profile.html")
+    msg = ""
+    user = request.session.get("user")
+    userid = request.session.get("userid")
+    cuser = Usersignup.objects.get(id=userid)
+    if request.method == "POST":
+        form = UpdateForm(request.POST, request.FILES, instance=cuser)
+        if form.is_valid():
+            form.save()
+            print("Profile updated!")
+            return redirect("profile")
+        else:
+            print(form.errors)
+            msg = "Error! Something went wrong..."
+    return render(request, "profile.html", {"user": user, "cuser": cuser, "msg": msg})
 
 
 def about(request):
-    return render(request, "about.html")
+    user = request.session.get("user")
+    return render(request, "about.html", {"user": user})
 
 
 def contact(request):
-    return render(request, "contact.html")
+    user = request.session.get("user")
+    return render(request, "contact.html", {"user": user})
 
 
 def login(request):
-    return render(request, "login.html")
+    user = request.session.get("user")
+    msg = ""
+    if request.method == "POST":
+        unm = request.POST["username"]
+        pas = request.POST["password"]
+        user = Usersignup.objects.filter(username=unm, password=pas)
+        userid = Usersignup.objects.get(username=unm)
+        print("Current UserID:", userid.id)
+        if user:  # TRUE
+            print("Login Successfull!")
+            request.session["user"] = unm  # generate a session
+            request.session["userid"] = userid.id
+            return redirect("notes")
+        else:
+            print("Error! Something went wrong..")
+            msg = "Error! Something went wrong.."
+    return render(request, "login.html", {"msg": msg, "user": user})
 
 
 def signup(request):
+    user = request.session.get("user")
     msg = ""
     if request.method == "POST":
         form = UsersignupForm(request.POST, request.FILES)
@@ -48,6 +83,7 @@ def signup(request):
                 msg = "Signup Successfully!"
 
                 # Email Sending Code
+                global otp
                 otp = random.randint(11111, 99999)
                 send_mail(
                     subject="Your OTP Verification",
@@ -55,7 +91,26 @@ def signup(request):
                     from_email=settings.EMAIL_HOST_USER,
                     recipient_list=[request.POST["username"]],
                 )
-                return redirect("login")
+                return redirect("otpverify")
         else:
             print(form.errors)
-    return render(request, "signup.html", {"msg": msg})
+    return render(request, "signup.html", {"msg": msg, "user": user})
+
+
+def otpverify(request):
+    user = request.session.get("user")
+    msg = ""
+    print("OTP:", otp)
+    if request.method == "POST":
+        if request.POST["otp"] == str(otp):
+            print("Verification success!")
+            return redirect("login")
+        else:
+            print("Error!Verification faild...Plz try again")
+            msg = "Error!Verification faild...Plz try again"
+    return render(request, "otpverify.html", {"msg": msg, "user": user})
+
+
+def userlogout(request):
+    logout(request)
+    return redirect("/")

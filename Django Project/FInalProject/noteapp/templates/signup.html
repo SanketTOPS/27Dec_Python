@@ -3,10 +3,14 @@
 
 {% block body %}
 <div class="container my-5">
+
+    {% if msg %}
     <div class="alert alert-danger alert-dismissible fade show" role="alert">
         <strong>{{msg}}</strong>
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
+    {% endif %}
+
     <h1 style="text-align: center;">Signup</h1>
     <hr>
 
