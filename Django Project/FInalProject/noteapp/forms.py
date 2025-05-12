@@ -21,3 +21,9 @@ class UpdateForm(forms.ModelForm):
             "mobile",
             "pphoto",
         ]
+
+
+class NotesForm(forms.ModelForm):
+    class Meta:
+        model = Notes
+        fields = "__all__"

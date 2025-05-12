@@ -15,6 +15,13 @@ def index(request):
 
 def notes(request):
     user = request.session.get("user")
+    if request.method == "POST":
+        form = NotesForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            print("Notes Submitted!")
+        else:
+            print(form.errors)
     return render(request, "notes.html", {"user": user})
 
 
