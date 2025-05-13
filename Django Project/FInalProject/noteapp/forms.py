@@ -26,4 +26,4 @@ class UpdateForm(forms.ModelForm):
 class NotesForm(forms.ModelForm):
     class Meta:
         model = Notes
-        fields = "__all__"
+        fields = ["title", "cate", "notefile", "desc"]

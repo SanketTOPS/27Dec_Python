@@ -15,11 +15,16 @@ def index(request):
 
 def notes(request):
     user = request.session.get("user")
+    username = Usersignup.objects.get(username=user)
+    print("Username:", username)
     if request.method == "POST":
         form = NotesForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
-            print("Notes Submitted!")
+            cuser = form.save(commit=False)
+            cuser.status = "Pending"
+            cuser.username = username
+            cuser.save()
+            print("Your notes has been submitted!")
         else:
             print(form.errors)
     return render(request, "notes.html", {"user": user})
