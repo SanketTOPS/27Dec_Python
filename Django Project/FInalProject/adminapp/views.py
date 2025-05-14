@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from noteapp.models import *
 
 # Create your views here.
 
@@ -24,8 +25,10 @@ def admin_home(request):
 
 
 def admin_userinfo(request):
-    return render(request, "admin_userinfo.html")
+    userdata = Usersignup.objects.all()
+    return render(request, "admin_userinfo.html", {"userdata": userdata})
 
 
 def admin_notesinfo(request):
-    return render(request, "admin_notesinfo.html")
+    notesdata = Notes.objects.all()
+    return render(request, "admin_notesinfo.html", {"notesdata": notesdata})
