@@ -68,11 +68,11 @@
                         <td class="px-4 py-2 text-sm text-gray-700">{{ i.updated_at }}</td>
                         <td class="px-4 py-2 text-sm">
                             <div class="flex space-x-3">
-                                <a href="#"
+                                <a href="/adminapp/notes_approve/{{i.id}}"
                                     class="text-green-600 hover:text-green-800 font-medium underline hover:underline-offset-2 transition duration-200">
                                     ✅ Approve
                                 </a>
-                                <a href="#"
+                                <a href="/adminapp/notes_reject/{{i.id}}"
                                     class="text-red-600 hover:text-red-800 font-medium underline hover:underline-offset-2 transition duration-200">
                                     ❌ Reject
                                 </a>

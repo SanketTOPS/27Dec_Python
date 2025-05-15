@@ -2,6 +2,17 @@
 {% block title %}Notes{% endblock %}
 
 {% block body%}
+
+{% if user is none %}
+<div class="container my-5">
+    <div class="alert alert-danger" role="alert">
+        <h4 class="alert-heading">Error!</h4>
+        <p>If you want to submit any notes, please <a href="/login">Login </a> first</p>
+        <hr>
+        <p class="mb-0">Whenever you need to, be sure to use margin utilities to keep things nice and tidy.</p>
+    </div>
+</div>
+{% endif %}
 <div class="container my-5">
     <h1 style="text-align: center;">Note Submission</h1>
     <hr>
@@ -29,4 +40,5 @@
         <button type="submit" class="btn btn-dark btn-lg">Submit Notes</button>
     </form>
 </div>
+
 {% endblock%}
