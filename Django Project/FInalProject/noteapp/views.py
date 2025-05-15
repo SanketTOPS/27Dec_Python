@@ -15,9 +15,10 @@ def index(request):
 
 def notes(request):
     user = request.session.get("user")
-    username = Usersignup.objects.get(username=user)
-    print("Username:", username)
+
     if request.method == "POST":
+        username = Usersignup.objects.get(username=user)
+        print("Username:", username)
         form = NotesForm(request.POST, request.FILES)
         if form.is_valid():
             cuser = form.save(commit=False)
