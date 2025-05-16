@@ -27,3 +27,9 @@ class NotesForm(forms.ModelForm):
     class Meta:
         model = Notes
         fields = ["title", "cate", "notefile", "desc"]
+
+
+class ContactForm(forms.ModelForm):
+    class Meta:
+        model = Contact
+        fields = ["name", "email", "msg"]

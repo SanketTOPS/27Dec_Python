@@ -1,6 +1,10 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from noteapp.models import *
 from datetime import datetime
+from FInalProject import settings
+from django.template.loader import render_to_string
+from django.core.mail import send_mail
+
 
 # Create your views here.
 
@@ -40,10 +44,42 @@ def notes_approve(request, id):
     notes.status = "Approved"
     notes.updated_at = datetime.now()
     notes.save()
-    print("Your notes has been approved!")
 
     # Email Sending
+    subject = "🎉 Your Notes Have Been Approved!"
+    from_email = settings.EMAIL_HOST_USER
+    recipient_list = [notes.username.username]
 
+    context = {
+        "user_name": notes.username.firstname,
+        "notes_title": notes.title,
+    }
+
+    # Load and render HTML template
+    html_message = render_to_string("emails/approve_mail.html", context)
+    plain_message = f"""
+    Hello {notes.username.firstname},
+
+    Your notes titled "{notes.title}" have been approved by the admin.
+
+    Thank you!
+    TOPS Technologies
+    """
+
+    try:
+        send_mail(
+            subject,
+            plain_message,  # Plain text message (fallback)
+            from_email,
+            recipient_list,
+            fail_silently=False,
+            html_message=html_message,  # HTML message for modern email clients
+        )
+        print("Approval email sent successfully.")
+    except Exception as e:
+        print(f"Error sending email: {e}")
+    print("Email Sent successfully!")
+    print("Your notes has been approved!")
     return redirect("admin_notesinfo")
 
 

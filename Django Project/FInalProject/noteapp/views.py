@@ -15,7 +15,6 @@ def index(request):
 
 def notes(request):
     user = request.session.get("user")
-
     if request.method == "POST":
         username = Usersignup.objects.get(username=user)
         print("Username:", username)
@@ -55,6 +54,13 @@ def about(request):
 
 def contact(request):
     user = request.session.get("user")
+    if request.method == "POST":
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            form.save()
+            print("Your message has been sent!")
+        else:
+            print(form.errors)
     return render(request, "contact.html", {"user": user})
 
 
