@@ -39,7 +39,21 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "noteapp",
     "adminapp",
+    "social_django",  # social_auth
 ]
+
+# social_auth
+AUTHENTICATION_BACKENDS = (
+    "social_core.backends.google.GoogleOAuth2",
+    "django.contrib.auth.backends.ModelBackend",
+)
+
+# social_auth
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = (
+    "780011757715-afrorp9mflgua85fpurgn3rntqqjseor.apps.googleusercontent.com"
+)
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = "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"
+
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -49,6 +63,8 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    # social_auth
+    "social_django.middleware.SocialAuthExceptionMiddleware",
 ]
 
 ROOT_URLCONF = "FInalProject.urls"
@@ -64,10 +80,16 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                # social_auth
+                "social_django.context_processors.backends",
+                "social_django.context_processors.login_redirect",
             ],
         },
     },
 ]
+
+LOGIN_REDIRECT_URL = "/"
+LOGOUT_REDIRECT_URL = "/"
 
 WSGI_APPLICATION = "FInalProject.wsgi.application"
 
